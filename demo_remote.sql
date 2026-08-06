@@ -8,7 +8,7 @@
 INSTALL duckdb_zarr FROM community;
 LOAD duckdb_zarr;
 
-SET VARIABLE base = 'https://raw.githubusercontent.com/USER/REPO/main/jump_rab30_mini';
+SET VARIABLE base = 'https://raw.githubusercontent.com/shntnu/duckdb-zarr-cellpainting-demo/main/jump_rab30_mini';
 
 -- Remote v3 stores need the array node itself, not the group:
 --   .../images.zarr/images  with array_path ''   (not .../images.zarr with 'images')
