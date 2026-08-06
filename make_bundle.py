@@ -6,7 +6,7 @@ Pulls the RAB30 ORF and CRISPR sites used by the JUMP hub's
 native resolution (keeps real pixel statistics, including saturation), and
 writes a Zarr store plus two CSV lookup tables.
 
-    ./make_bundle.py      # -> jump_rab30_mini/ and jump_rab30_mini.zip
+    ./make_bundle.py      # -> jump_rab30_mini/
 """
 
 import shutil
@@ -53,6 +53,4 @@ zarr.open_group(OUT / "images.zarr", mode="w").create_array(
 
 pd.DataFrame(sites).to_csv(OUT / "sites.csv", index=False)
 pd.DataFrame(enumerate(CHANNELS), columns=["idx", "channel"]).to_csv(OUT / "channels.csv", index=False)
-shutil.copy(__file__, OUT / "make_bundle.py")
-shutil.make_archive(str(OUT), "zip", ".", str(OUT))
-print("wrote", OUT, "and", f"{OUT}.zip")
+print("wrote", OUT)
