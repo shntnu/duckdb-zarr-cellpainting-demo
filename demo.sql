@@ -1,7 +1,7 @@
 -- Cell Painting QC with no Python in it.
 --
 --   curl -LO <url>/jump_rab30_mini.zip && unzip -q jump_rab30_mini.zip
---   duckdb -c ".read demo.sql"          -- needs DuckDB 1.5.1
+--   duckdb -c ".read demo.sql"          -- needs DuckDB 1.5.1 or newer
 --
 -- Bundle: two RAB30 sites (ORF + CRISPR) from JUMP cpg0016, 5 channels,
 -- 384x384 center crop at native resolution. See make_bundle.py inside the zip.
@@ -19,7 +19,7 @@ CREATE VIEW px AS
   JOIN 'jump_rab30_mini/sites.csv'    s ON s.idx = z.dim_0
   JOIN 'jump_rab30_mini/channels.csv' c ON c.idx = z.dim_1;
 
-.print '== Q1: the notebook''s np.percentile(img, 99.5) vmax, every site x channel at once =='
+.print '== Q1: np.percentile(img, 99.5) from the notebook, every site x channel at once =='
 SELECT modality, Source, Plate, Well, channel,
        round(avg(value), 1) AS mean,
        quantile_cont(value, 0.995)::INT AS vmax_99_5,

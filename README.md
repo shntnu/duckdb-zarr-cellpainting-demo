@@ -14,7 +14,8 @@ metadata.
 
 ## Run it
 
-Needs DuckDB **1.5.1** - `duckdb_zarr` is only published for that version today.
+Needs DuckDB **1.5.1 or newer** - `duckdb_zarr` is published for 1.5.1, 1.5.2 and
+1.5.3 (linux/macOS/Windows), and nothing earlier.
 
 ```sh
 duckdb -c ".read demo.sql"          # local files in this repo
@@ -72,7 +73,7 @@ Q3 is spatial binning as a `GROUP BY`.
 
 ## Notes for the maintainers
 
-Everything below was hit while building this. Versions: DuckDB 1.5.1,
+Everything below was hit while building this. Versions: DuckDB 1.5.1 and 1.5.2,
 `duckdb_zarr` from community extensions, `zarr-python` 3.x, linux_amd64.
 
 **1. The Cell Painting Gallery's OME-Zarr is unreadable.**
@@ -126,4 +127,4 @@ The [`zarr`](https://duckdb.org/community_extensions/extensions/zarr) extension
 (xqlsystems) has a docs page but no published binaries for any platform or
 version - every `community-extensions.duckdb.org` URL 404s. This demo uses
 [`duckdb_zarr`](https://github.com/WayScience/duckdb_zarr) (WayScience), which
-is published for v1.5.1 only.
+is published for 1.5.1 and up.

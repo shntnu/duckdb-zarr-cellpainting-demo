@@ -1,6 +1,6 @@
 -- Cell Painting QC over HTTPS, with no Python and no download step.
 --
---   duckdb -c ".read demo_remote.sql"      -- needs DuckDB 1.5.1
+--   duckdb -c ".read demo_remote.sql"      -- needs DuckDB 1.5.1 or newer
 --
 -- Data: two RAB30 sites (ORF + CRISPR) from JUMP cpg0016, 5 channels,
 -- 384x384 center crop at native resolution. See make_bundle.py in the repo.
@@ -21,7 +21,7 @@ CREATE VIEW px AS
   JOIN read_csv(getvariable('base') || '/sites.csv')    s ON s.idx = z.dim_0
   JOIN read_csv(getvariable('base') || '/channels.csv') c ON c.idx = z.dim_1;
 
-.print '== Q1: the notebook''s np.percentile(img, 99.5) vmax, every site x channel at once =='
+.print '== Q1: np.percentile(img, 99.5) from the notebook, every site x channel at once =='
 SELECT modality, Source, Plate, Well, channel,
        round(avg(value), 1) AS mean,
        quantile_cont(value, 0.995)::INT AS vmax_99_5,
