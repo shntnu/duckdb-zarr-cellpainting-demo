@@ -12,6 +12,8 @@ LOAD duckdb_zarr;
 -- zarr_cells projects the (site, channel, y, x) array to rows of
 -- (dim_0, dim_1, dim_2, dim_3, value) -- bare integer indices. The joins to
 -- sites.csv and channels.csv are the only thing that make the array mean anything.
+-- Note: idx is positional, written by make_bundle.py -- the store carries no
+-- dimension names or attributes for this to be checked against. See README note 6.
 CREATE VIEW px AS
   SELECT s.modality, s.Source, s.Plate, s.Well, c.channel,
          z.dim_2 AS y, z.dim_3 AS x, z.value

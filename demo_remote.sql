@@ -14,6 +14,8 @@ SET VARIABLE base = 'https://raw.githubusercontent.com/shntnu/duckdb-zarr-cellpa
 --   .../images.zarr/images  with array_path ''   (not .../images.zarr with 'images')
 SET VARIABLE arr = getvariable('base') || '/images.zarr/images';
 
+-- idx is positional, written by make_bundle.py -- the store carries no dimension
+-- names or attributes for this to be checked against. See README note 6.
 CREATE VIEW px AS
   SELECT s.modality, s.Source, s.Plate, s.Well, c.channel,
          z.dim_2 AS y, z.dim_3 AS x, z.value

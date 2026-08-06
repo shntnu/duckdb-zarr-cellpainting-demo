@@ -122,6 +122,34 @@ DuckDB pushes a semi-join filter into the scan and it is rejected. Filtering on
 `demo.sql` Q2. This is the roughest edge for the join-heavy use case, since
 joining dimension indices to metadata is the main reason to want this at all.
 
+**6. Dimension coordinates are dropped, so the joins are on a convention.**
+This is the one that matters most for the use case. `zarr_cells` emits
+`dim_0..dim_N` and nothing else, so `sites.csv` and `channels.csv` in this repo
+join on `idx` - a positional integer written by `make_bundle.py`, not carried in
+the store. Reorder `CHANNELS` without regenerating the CSVs and every query
+silently mislabels channels.
+
+It is not for lack of metadata. A store that declares them is still projected to
+bare indices:
+
+```python
+g.create_array('images', shape=(2,5,4,4), dtype='u2',
+               dimension_names=('site','channel','y','x'), ...)
+a.attrs['channels'] = ['AGP','DNA','ER','Mito','RNA']
+```
+```
+DESCRIBE SELECT * FROM zarr_cells('named.zarr','images');
+-> dim_0, dim_1, dim_2, dim_3, value
+```
+
+Zarr v3 `dimension_names` and array `attributes` are both ignored. Real OME-Zarr
+carries more still - channel labels in `.zattrs` under `omero.channels[].label`,
+well identity in the HCS path - and none of it survives either. Surfacing these
+as columns would turn `WHERE channel = 'Mito'` into a predicate over what the
+store asserts, rather than over a sidecar the user promises is in the right
+order. That is the difference between "query your array with SQL" and "query
+your array with SQL and mean it".
+
 **5. `zarr` vs `duckdb_zarr`.**
 The [`zarr`](https://duckdb.org/community_extensions/extensions/zarr) extension
 (xqlsystems) has a docs page but no published binaries for any platform or
