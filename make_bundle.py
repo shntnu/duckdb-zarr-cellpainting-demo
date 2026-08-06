@@ -1,5 +1,5 @@
 #!/usr/bin/env -S uv run --python 3.12 --with jump_portrait --with 'zarr>=3' --with pandas --with numpy -s
-"""Build jump_rab30_mini.zip -- the demo bundle that demo.sql queries.
+"""Rebuild jump_rab30_mini/ -- the demo bundle that demo.sql queries.
 
 Pulls the RAB30 ORF and CRISPR sites used by the JUMP hub's
 `14_display_perturbation_images` notebook, center-crops each to 384x384 at
